@@ -28,18 +28,15 @@ namespace Calculator
 				"cos(pi/2)"
 			};
 
-			foreach (var expression in expressions)
-				ComputeExpression (expression);
-		}
+			while (true) {
+				Console.Write (">>> ");
+				string expression = Console.ReadLine ();
 
-		public static void ComputeExpression(string expression)
-		{
-			Console.WriteLine ("Expression: " + expression);
-			ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
-			Queue<Token> postfixNotation = algorithm.PostfixTokens;
-
-			Evaluator evaluator = new Evaluator (postfixNotation);
-			Console.WriteLine ("Result: " + evaluator.Evaluate ());
+				ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
+				Queue<Token> postfixNotation = algorithm.PostfixTokens;
+				Evaluator evaluator = new Evaluator (postfixNotation);
+				Console.WriteLine (evaluator.Evaluate ());
+			}
 		}
 	}
 }
