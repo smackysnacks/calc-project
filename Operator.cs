@@ -5,7 +5,7 @@ namespace Calculator
 {
 	public class Operator
 	{
-		public delegate double EvaluationDelegate(double x, double y);
+		public delegate double EvaluationDelegate(double x, double y = 0);
 
 		/// <summary>
 		/// Dictionary mapping operator string to a 2-tuple where the first
@@ -15,11 +15,13 @@ namespace Calculator
 		private readonly Dictionary<string, Tuple<int, string, EvaluationDelegate>> operatorInfo =
 			new Dictionary<string, Tuple<int, string, EvaluationDelegate>> ()
 		{
-			{"^", new Tuple<int, string, EvaluationDelegate> (4, "right", Math.Pow)},
+			{"#", new Tuple<int, string, EvaluationDelegate>(5, "right", (x, y) => -x)},
+			{"@", new Tuple<int, string, EvaluationDelegate>(5, "right", (x, y) => x)},
+			{"^", new Tuple<int, string, EvaluationDelegate>(4, "right", Math.Pow)},
 			{"*", new Tuple<int, string, EvaluationDelegate>(3, "left", (x, y) => x * y)},
 			{"/", new Tuple<int, string, EvaluationDelegate>(3, "left", (x, y) => x / y)},
 			{"+", new Tuple<int, string, EvaluationDelegate>(2, "left", (x, y) => x + y)},
-			{"-", new Tuple<int, string, EvaluationDelegate>(2, "left", (x, y) => x - y)},
+			{"-", new Tuple<int, string, EvaluationDelegate>(2, "left", (x, y) => x - y)}
 		};
 
 		private readonly Token op;

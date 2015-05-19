@@ -18,11 +18,19 @@ namespace Calculator
 			foreach (var token in postfixExpression) {
 				if (token.Type == TokenType.Number) {
 					evaluationStack.Push (token);
-				} else {
+				} else if (token.Type == TokenType.Operator) {
+					double result;
 					Token temp = evaluationStack.Pop ();
 					Operator op = new Operator (token);
-
-					double result = op.Operation(Double.Parse(evaluationStack.Pop().Value), Double.Parse(temp.Value));
+					if (op.Op.Value == "#" || op.Op.Value == "@") {
+						result = op.Operation (double.Parse (temp.Value));
+					} else {
+						string val1 = evaluationStack.Peek ().Value;
+						result = op.Operation (Double.Parse (evaluationStack.Pop ().Value), Double.Parse (temp.Value));
+					}
+					evaluationStack.Push (new Token (result.ToString ()));
+				} else if (token.Type == TokenType.Function) {
+					double result = Function.Call (token.Value, evaluationStack);
 					evaluationStack.Push (new Token (result.ToString ()));
 				}
 			}

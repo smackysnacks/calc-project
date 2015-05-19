@@ -36,6 +36,7 @@ namespace Calculator
 			Queue<Token> infixTokensCopy = CloneQueue (this.infixTokens); // mutate separate queue
 			Queue<Token> outputQueue = new Queue<Token> ();
 			Stack<Token> operatorStack = new Stack<Token> ();
+			TokenType lastTokenType = TokenType.None;
 
 			while (infixTokensCopy.Count > 0) {
 				Token token = infixTokensCopy.Dequeue ();
@@ -49,6 +50,16 @@ namespace Calculator
 						outputQueue.Enqueue (operatorStack.Pop ());
 					}
 				} else if (token.Type == TokenType.Operator) {
+					if ((operatorStack.Count == 0 && outputQueue.Count == 0) ||
+							(lastTokenType == TokenType.Operator) ||
+							(lastTokenType == TokenType.LeftParen)) { // this is a unary operator
+						if (token.Value == "-") {
+							token = new Token ("#"); // unary minus operator
+						} else if (token.Value == "+") {
+							token = new Token ("@");
+						}
+					}
+
 					Operator operator1 = new Operator (token);
 					while (operatorStack.Count > 0 && operatorStack.Peek().Type == TokenType.Operator) {
 						Operator operator2 = new Operator (operatorStack.Peek ());
@@ -71,10 +82,12 @@ namespace Calculator
 
 					operatorStack.Pop (); // discard left parenthesis
 
-					if (operatorStack.Peek().Type == TokenType.Function) {
+					if (operatorStack.Count > 0 && operatorStack.Peek().Type == TokenType.Function) {
 						outputQueue.Enqueue (operatorStack.Pop ());
 					}
 				}
+
+				lastTokenType = token.Type;
 			}
 
 			while (operatorStack.Count > 0)

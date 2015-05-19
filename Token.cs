@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Calculator
 {
-	public enum TokenType {Number, Function, FunctionArgSeparator, Operator, LeftParen, RightParen};
+	public enum TokenType {None, Number, Function, FunctionArgSeparator, Operator, LeftParen, RightParen};
 
 	public class Token
 	{
@@ -13,11 +13,21 @@ namespace Calculator
 			{"/", TokenType.Operator},
 			{"+", TokenType.Operator},
 			{"-", TokenType.Operator},
+			{"#", TokenType.Operator},
+			{"@", TokenType.Operator},
 			{"(", TokenType.LeftParen},
 			{")", TokenType.RightParen},
+			{",", TokenType.FunctionArgSeparator},
 			{"sin", TokenType.Function},
 			{"cos", TokenType.Function},
-			{"tan", TokenType.Function}
+			{"tan", TokenType.Function},
+			{"abs", TokenType.Function},
+			{"max", TokenType.Function},
+			{"min", TokenType.Function},
+			{"neg", TokenType.Function},
+			{"avg", TokenType.Function},
+			{"sqrt", TokenType.Function},
+			{"vavg", TokenType.Function}
 		};
 
 		TokenType type;
