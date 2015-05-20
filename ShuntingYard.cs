@@ -52,7 +52,8 @@ namespace Calculator
 				} else if (token.Type == TokenType.Operator) {
 					if ((operatorStack.Count == 0 && outputQueue.Count == 0) ||
 							(lastTokenType == TokenType.Operator) ||
-							(lastTokenType == TokenType.LeftParen)) { // this is a unary operator
+							(lastTokenType == TokenType.LeftParen) ||
+							(lastTokenType == TokenType.FunctionArgSeparator)) { // this is a unary operator
 						if (token.Value == "-") {
 							token = new Token ("#"); // unary minus operator
 						} else if (token.Value == "+") {

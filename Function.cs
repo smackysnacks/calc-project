@@ -7,49 +7,40 @@ namespace Calculator
 	{
 		public static double Call(string function, Stack<Token> argumentStack)
 		{
-			Queue<double> args = new Queue<double> ();
-
 			switch (function) {
 			case "sin":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Sin (args.Dequeue ());
+				return Math.Sin (GetArg(argumentStack));
 			case "cos":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Cos (args.Dequeue ());
+				return Math.Cos (GetArg(argumentStack));
 			case "tan":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Tan (args.Dequeue ());
+				return Math.Tan (GetArg(argumentStack));
 			case "abs":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Abs (args.Dequeue ());
+				return Math.Abs (GetArg(argumentStack));
 			case "max":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Max (args.Dequeue (), args.Dequeue ());
+				return Math.Max (GetArg(argumentStack), GetArg(argumentStack));
 			case "min":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Min (args.Dequeue (), args.Dequeue ());
+				return Math.Min (GetArg(argumentStack), GetArg(argumentStack));
 			case "neg":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return -args.Dequeue ();
+				return -GetArg (argumentStack);
 			case "avg":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return (args.Dequeue() + args.Dequeue()) / 2;
+				return (GetArg(argumentStack) + GetArg(argumentStack)) / 2;
 			case "sqrt":
-				args.Enqueue (double.Parse (argumentStack.Pop ().Value));
-				return Math.Sqrt (args.Dequeue ());
+				return Math.Sqrt (GetArg(argumentStack));
 			case "vavg":
-				int count = int.Parse (argumentStack.Pop ().Value);
+				int count = (int)GetArg(argumentStack);
 				double sum = 0;
 				for (int i = 0; i < count; ++i)
-					sum += double.Parse (argumentStack.Pop ().Value);
+					sum += GetArg(argumentStack);
 
 				return sum / count;
 			}
 
 			throw new ArgumentException (String.Format ("Invalid function, {0}", function));
+		}
+
+		private static double GetArg(Stack<Token> argumentStack)
+		{
+			return double.Parse (argumentStack.Pop ().Value);
 		}
 	}
 }

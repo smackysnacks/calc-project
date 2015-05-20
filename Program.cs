@@ -7,6 +7,19 @@ namespace Calculator
 	{
 		public static void Main (string[] args)
 		{
+			while (true) {
+				Console.Write (">>> ");
+				string expression = Console.ReadLine ();
+
+				ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
+				Queue<Token> postfixNotation = algorithm.PostfixTokens;
+				Evaluator evaluator = new Evaluator (postfixNotation);
+				Console.WriteLine (evaluator.Evaluate ());
+			}
+		}
+
+		public static void TestCases()
+		{
 			string[] expressions = {
 				"min(((-((42)))      * sin(    pi/2 + pi))*2,64)",
 				"sin(pi/2) +4",
@@ -28,10 +41,7 @@ namespace Calculator
 				"cos(pi/2)"
 			};
 
-			while (true) {
-				Console.Write (">>> ");
-				string expression = Console.ReadLine ();
-
+			foreach (string expression in expressions) {
 				ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
 				Queue<Token> postfixNotation = algorithm.PostfixTokens;
 				Evaluator evaluator = new Evaluator (postfixNotation);
