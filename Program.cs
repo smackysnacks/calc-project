@@ -11,10 +11,13 @@ namespace Calculator
 				Console.Write (">>> ");
 				string expression = Console.ReadLine ();
 
-				ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
-				Queue<Token> postfixNotation = algorithm.PostfixTokens;
-				Evaluator evaluator = new Evaluator (postfixNotation);
-				Console.WriteLine (evaluator.Evaluate ());
+				try {
+					ShuntingYard parser = new ShuntingYard (Lexer.Tokenize (expression));
+					Queue<Token> postfixNotation = parser.PostfixTokens;
+					Evaluator evaluator = new Evaluator (postfixNotation);
+					Console.WriteLine (evaluator.Evaluate ());
+				} catch (Exception) {
+				}
 			}
 		}
 
@@ -42,8 +45,8 @@ namespace Calculator
 			};
 
 			foreach (string expression in expressions) {
-				ShuntingYard algorithm = new ShuntingYard (Lexer.Tokenize (expression));
-				Queue<Token> postfixNotation = algorithm.PostfixTokens;
+				ShuntingYard parser = new ShuntingYard (Lexer.Tokenize (expression));
+				Queue<Token> postfixNotation = parser.PostfixTokens;
 				Evaluator evaluator = new Evaluator (postfixNotation);
 				Console.WriteLine (evaluator.Evaluate ());
 			}
